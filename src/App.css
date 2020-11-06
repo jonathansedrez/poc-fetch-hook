@@ -1,5 +1,34 @@
+.modal {
+  position: absolute;
+  top: 0;
+  display: flex;
+  width: 650px;
+  height: auto;
+  background: #000;
+  color: #fff;
+  flex-direction: column;
+}
+
+.loading {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0;
+  display: flex;
+  background: #000;
+  opacity: .2;
+  z-index: 10;
+  margin: 0;
+}
+
+.loading-text {
+  color: #fff;
+}
+
 .App {
   text-align: center;
+  position: relative;
 }
 
 .App-logo {
