@@ -25,24 +25,35 @@ export function useFetch<T>
     isOpen: false,
   })
 
+  let source = axios.CancelToken.source()
+
   const fetch = useCallback(async (param?: string) => {
     setLoading(true)
     try {
       const axiosResponse = await axios({
         ...config,
+        cancelToken: source.token,
         url: param ? `${config.baseURL}/${param}` : config.baseURL,
       })
       setResponse(axiosResponse.data?.data)
     } catch (axiosError) {
-      setError({
-        isOpen: true,
-        status: axiosError?.response?.status,
-        details: axiosError
-      })
+      if (!axios.isCancel(axiosError)) {
+        setError({
+          isOpen: true,
+          status: axiosError?.response?.status,
+          details: axiosError
+        })
+      }
     } finally {
       setLoading(false)
     }
   }, [response])
+
+  useEffect(() => {
+    return () => {  
+      source.cancel()
+    }
+  }, [])
 
   const cleanUpError = () => {
     setError({
